@@ -1,0 +1,15 @@
+node_modules/
+local_dataset/
+venv/
+.venv/
+__pycache__/
+*.wav
+*.mp3
+# Ignore ML models
+backend/checkpoint-2500/
+*.pt
+*.bin
+*.safetensors
+
+# Ignore recordings
+*.webm

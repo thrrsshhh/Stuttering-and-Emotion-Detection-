@@ -1,0 +1,238 @@
+/* ---------- Container Layout ---------- */
+.dashboard-container {
+  display: flex; 
+  height: 100vh; 
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  width: 250px; 
+  background-color: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ---------- Dashboard ---------- */
+.dashboard {
+  flex: 1; 
+  padding: 20px;
+  background: #f0fdf4;
+  min-height: 100vh;
+}
+
+/* ---------- Header ---------- */
+.header h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.header p {
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+/* ---------- Session Controls ---------- */
+.session-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #dcfce7;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.session-controls .left h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.session-controls .left p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.progress-bar {
+  background: #e5e7eb;
+  height: 8px;
+  border-radius: 6px;
+  margin: 8px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: #16a34a;
+  height: 8px;
+  border-radius: 6px;
+}
+
+.audio-level {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.session-controls .right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status {
+  background: #e5e7eb;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.timer {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.settings-btn {
+  padding: 8px 12px;
+  background: #e5e7eb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.start-btn {
+  padding: 8px 12px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ---------- Cards Grid (Top Small Cards) ---------- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: stretch;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 120px;
+}
+
+.big-text {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.small-text {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ---------- Big Cards (Bottom Section) ---------- */
+.big-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 24px;
+  align-items: stretch;
+}
+
+.big-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 320px;
+}
+
+.inactive {
+  color: #374151;
+  margin-top: 8px;
+}
+
+.placeholder {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.bottom-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.highlight {
+  font-weight: 600;
+}
+
+.percentage {
+  font-size: 24px;
+  font-weight: bold;
+  color: #16a34a;
+}
+
+.chart-placeholder {
+  margin-top: 20px;
+  height: 160px;
+  background: #f0fdf4;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+}
+
+.distribution {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.insights {
+  margin-top: 24px;
+  background: #f0fdf4;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+/* ---------- Responsive Fix ---------- */
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  .big-cards {
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media (max-width: 600px) {
+  .cards-grid {
+    grid-template-columns: 1fr; 
+  }
+}

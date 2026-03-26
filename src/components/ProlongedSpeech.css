@@ -1,0 +1,112 @@
+.prolonged-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f9fff9;
+  min-height: 100vh;
+}
+
+.back-btn {
+  border: none;
+  background: #ddd;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.prolonged-main {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.current-phrase {
+  flex: 2;
+  background: #f1f8e9;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.level {
+  background: #c8e6c9;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.desc {
+  margin-top: 10px;
+  color: #555;
+}
+
+.speech-rate {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.speech-rate input {
+  flex: 1;
+}
+
+.record-btn {
+  background: #388e3c;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.phrase-nav {
+  margin-top: 15px;
+}
+
+.phrase-nav button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.phrase-nav button:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
+.tips {
+  flex: 1;
+  background: #fff;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.practice-phrases {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.practice-phrases button {
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.practice-phrases button.active {
+  background: #4caf50;
+  color: #fff;
+}

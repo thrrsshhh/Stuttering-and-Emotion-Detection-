@@ -6,7 +6,6 @@ export default function ProlongedSpeech() {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
 
-  // --- AI STATE ---
   const [isRecording, setIsRecording] = useState(false);
   const [status, setStatus] = useState("");
   const [feedback, setFeedback] = useState(null);
@@ -30,7 +29,6 @@ export default function ProlongedSpeech() {
     setFeedback(null);
   };
 
-  // --- RECORDING LOGIC ---
   const toggleRecording = async () => {
     if (isRecording) {
       mediaRecorderRef.current.stop();
@@ -59,9 +57,8 @@ export default function ProlongedSpeech() {
             const data = await response.json();
 
             if (data.status === "success") {
-              // ✅ ADDED LINE
               localStorage.setItem("ex_prolonged", "done");
-
+              window.dispatchEvent(new Event("exerciseCompleted"));
               if (data.prediction === "Fluent") {
                 setFeedback({
                   message: `Excellent! Fluency maintained. Detected Emotion: ${data.emotion}`,
@@ -125,7 +122,7 @@ export default function ProlongedSpeech() {
             onClick={toggleRecording}
             style={{ backgroundColor: isRecording ? "#ff4d4d" : "" }}
           >
-            {isRecording ? "⬛ Stop Recording" : "🎤 Start Recording"}
+            {isRecording ? "Stop Recording" : "Start Recording"}
           </button>
 
           <div style={{ marginTop: "15px", minHeight: "40px" }}>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // 1. Import useNavigate
+import { Link, useNavigate } from "react-router-dom"; 
 import "./Exercises.css";
 
 const Exercises = () => {
-  const navigate = useNavigate(); // 2. Initialize navigate
+  const navigate = useNavigate(); 
   const [summary, setSummary] = useState({
     completed: 0,
     total: 3,
@@ -12,69 +12,61 @@ const Exercises = () => {
     percent: 0,
   });
 
-  const [exercises, setExercises] = useState([
-    {
-      id: "breathing",
-      title: "Breathing Control",
-      level: "Beginner",
-      done: "0/1 Sessions",
-      progress: 0,
-      path: "/breathing-control",
-    },
-    {
-      id: "softonset",
-      title: "Soft Onset Practice",
-      level: "Intermediate",
-      done: "0/1 Sessions",
-      progress: 0,
-      path: "/soft-onset",
-    },
-    {
-      id: "prolonged",
-      title: "Prolonged Speech",
-      level: "Advanced",
-      done: "0/1 Sessions",
-      progress: 0,
-      path: "/prolonged-speech",
-    },
-  ]);
+  const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
-    const bDone = localStorage.getItem("ex_breathing") === "done";
-    const sDone = localStorage.getItem("ex_softonset") === "done";
-    const pDone = localStorage.getItem("ex_prolonged") === "done";
+    const loadRealTimeProgress = () => {
+      const bDone = localStorage.getItem("ex_breathing") === "done";
+      const sDone = localStorage.getItem("ex_softonset") === "done";
+      const pDone = localStorage.getItem("ex_prolonged") === "done";
 
-    const statusMap = {
-      breathing: bDone,
-      softonset: sDone,
-      prolonged: pDone,
+      const statusMap = {
+        breathing: bDone,
+        softonset: sDone,
+        prolonged: pDone,
+      };
+
+      const baseExercises = [
+        { id: "breathing", title: "Breathing Control", level: "Beginner", done: "0/1 Sessions", progress: 0, path: "/breathing-control" },
+        { id: "softonset", title: "Soft Onset Practice", level: "Intermediate", done: "0/1 Sessions", progress: 0, path: "/soft-onset" },
+        { id: "prolonged", title: "Prolonged Speech", level: "Advanced", done: "0/1 Sessions", progress: 0, path: "/prolonged-speech" },
+      ];
+
+      const updatedExercises = baseExercises.map((ex) => {
+        if (statusMap[ex.id]) {
+          return { ...ex, done: "1/1 Sessions", progress: 100 };
+        }
+        return ex;
+      });
+
+      const completedCount = [bDone, sDone, pDone].filter(Boolean).length;
+      const totalExercises = 3;
+      const percentage = Math.round((completedCount / totalExercises) * 100);
+
+      setExercises(updatedExercises);
+      setSummary({
+        completed: completedCount,
+        total: totalExercises,
+        time: completedCount > 0 ? `${completedCount * 5} mins` : "0 mins",
+        streak: completedCount > 0 ? 1 : 0,
+        percent: percentage,
+      });
     };
 
-    const updatedExercises = exercises.map((ex) => {
-      if (statusMap[ex.id]) {
-        return { ...ex, done: "1/1 Sessions", progress: 100 };
-      }
-      return ex;
-    });
+    loadRealTimeProgress();
 
-    const completedCount = [bDone, sDone, pDone].filter(Boolean).length;
-    const totalExercises = 3;
-    const percentage = Math.round((completedCount / totalExercises) * 100);
+    window.addEventListener("storage", loadRealTimeProgress);
+    window.addEventListener("exerciseCompleted", loadRealTimeProgress);
 
-    setExercises(updatedExercises);
-    setSummary({
-      completed: completedCount,
-      total: totalExercises,
-      time: completedCount > 0 ? `${completedCount * 5} mins` : "0 mins",
-      streak: completedCount > 0 ? 1 : 0,
-      percent: percentage,
-    });
+    return () => {
+      window.removeEventListener("storage", loadRealTimeProgress);
+      window.removeEventListener("exerciseCompleted", loadRealTimeProgress);
+    };
   }, []);
 
   return (
     <main className="exercises-container">
       <header>
-        {/* 3. Add the Back Button here */}
         <button 
           className="back-btn" 
           onClick={() => navigate("/")} 
@@ -97,35 +89,6 @@ const Exercises = () => {
           Welcome back! Here’s your speech therapy progress.
         </p>
       </header>
-
-      <section className="progress-summary">
-        <div className="summary-text">
-          <h2>Today's Progress</h2>
-          <p>{summary.percent === 100 ? "All caught up! Great job." : "Complete sessions to see your progress."}</p>
-        </div>
-
-        <div className="summary-stats">
-          <div>
-            <strong>{summary.completed}/{summary.total}</strong>
-            <br />Exercises Completed
-          </div>
-          <div>
-            <strong>{summary.time}</strong>
-            <br />Practice Time
-          </div>
-          <div>
-            <strong>{summary.streak}</strong>
-            <br />Day Streak
-          </div>
-        </div>
-
-        <div className="progress-bar large">
-          <div
-            className="fill"
-            style={{ width: `${summary.percent}%`, transition: 'width 1s ease-in-out' }}
-          ></div>
-        </div>
-      </section>
 
       <section className="exercise-list">
         {exercises.map((ex) => (

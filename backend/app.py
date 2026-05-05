@@ -20,26 +20,21 @@ app.add_middleware(
 )
 
 STUTTER_MODEL_PATH = "./checkpoint-2500"
-
-# This is a highly accurate, pre-trained Speech Emotion model from HuggingFace.
-# If you have your own emotion model in a local folder, just change this path!
 SER_MODEL_PATH = "superb/wav2vec2-base-superb-er" 
 
 print("Loading AI Models...")
 try:
-    # 1. Load Stuttering Model
     feature_extractor = Wav2Vec2FeatureExtractor.from_pretrained("facebook/wav2vec2-base")
     stutter_model = Wav2Vec2ForSequenceClassification.from_pretrained(STUTTER_MODEL_PATH, use_safetensors=True)
     stutter_model.eval()
     
-    # 2. Load Emotion Model
     print("Loading Pre-trained Emotion Model (This may take a moment to download the first time)...")
     ser_model = Wav2Vec2ForSequenceClassification.from_pretrained(SER_MODEL_PATH)
     ser_model.eval()
     
-    print("✅ All AI Models Online!")
+    print(" All AI Models Online!")
 except Exception as e:
-    print(f"❌ Error loading models: {e}")
+    print(f"Error loading models: {e}")
 
 @app.post("/analyze-audio")
 async def analyze_audio(file: UploadFile = File(...)):
@@ -79,28 +74,24 @@ async def analyze_audio(file: UploadFile = File(...)):
             
         waveform = waveform.squeeze().numpy()
         
-        # We process the audio ONCE and feed it to BOTH models!
         inputs = feature_extractor(waveform, sampling_rate=16000, return_tensors="pt", padding=True)
         
-        # === 1. STUTTERING INFERENCE ===
         with torch.no_grad():
             stutter_logits = stutter_model(**inputs).logits
             stutter_probs = F.softmax(stutter_logits, dim=-1)
             stutter_prob = stutter_probs[0][1].item()
             
-        print(f"🤖 Stutter Confidence: {stutter_prob:.2f}")
+        print(f"Stutter Confidence: {stutter_prob:.2f}")
         result_text = "Stuttering Detected" if stutter_prob > 0.50 else "Fluent"
         
-        # === 2. EMOTION INFERENCE ===
         with torch.no_grad():
             ser_logits = ser_model(**inputs).logits
             predicted_emotion_id = torch.argmax(ser_logits, dim=-1).item()
             
-            # The SUPERB model uses these exact 4 classes
             emotion_labels = {0: "Neutral", 1: "Happy", 2: "Angry", 3: "Sad"}
             emotion_text = emotion_labels.get(predicted_emotion_id, "Unknown")
             
-        print(f"🎭 Emotion Detected: {emotion_text}")
+        print(f" Emotion Detected: {emotion_text}")
         
         return {
             "status": "success", 
@@ -109,7 +100,7 @@ async def analyze_audio(file: UploadFile = File(...)):
         }
 
     except Exception as e:
-        print(f"\n❌ CRITICAL ERROR: {str(e)}\n")
+        print(f"\n CRITICAL ERROR: {str(e)}\n")
         if os.path.exists(webm_path): os.remove(webm_path)
         if os.path.exists(wav_path): os.remove(wav_path)
         return {"status": "error", "message": str(e)}

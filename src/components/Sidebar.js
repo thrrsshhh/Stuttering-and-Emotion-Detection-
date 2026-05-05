@@ -6,10 +6,7 @@ import "./Sidebar.css";
 export default function Sidebar() {
   return (
     <div className="sidebar">
-      {/* Logo */}
       <div className="logo">SpeechFlow</div>
-
-      {/* Navigation */}
       <ul className="nav">
         <li>
           <NavLink

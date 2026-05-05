@@ -5,7 +5,6 @@
   background: #f9fff9;
 }
 
-/* Sidebar */
 .sidebar {
   width: 220px;
   background: #e8f5e9;
@@ -49,7 +48,6 @@
   font-weight: bold;
 }
 
-/* Main content */
 .soft-main {
   flex: 1;
   padding: 20px;
@@ -89,7 +87,6 @@
   color: #555;
 }
 
-/* Session progress */
 .session-progress {
   margin: 15px 0;
   padding: 10px;
@@ -97,7 +94,6 @@
   border-radius: 6px;
 }
 
-/* Practice section */
 .practice-section {
   display: flex;
   justify-content: space-between;
@@ -149,7 +145,6 @@
   color: white;
 }
 
-/* Navigation buttons for Next/Previous */
 .nav-buttons {
   margin-top: 15px;
 }
@@ -170,7 +165,6 @@
   cursor: not-allowed;
 }
 
-/* Instructions */
 .instructions {
   flex: 1;
   margin-left: 20px;
@@ -189,7 +183,6 @@
   padding-left: 20px;
 }
 
-/* Practice words */
 .practice-words {
   margin-top: 20px;
   display: grid;
@@ -209,7 +202,6 @@
   background: #e8f5e9;
 }
 
-/* Highlight active practice word */
 .practice-words button.active {
   background: #4caf50;
   color: white;

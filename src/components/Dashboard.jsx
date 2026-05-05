@@ -15,12 +15,10 @@ const Dashboard = () => {
 
   const toggleRecording = async () => {
     if (isRecording) {
-      // STOP RECORDING
       mediaRecorderRef.current.stop();
       setIsRecording(false);
       setStatus("Analyzing AI Model...");
     } else {
-      // START RECORDING
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         mediaRecorderRef.current = new MediaRecorder(stream);
@@ -35,7 +33,6 @@ const Dashboard = () => {
           const formData = new FormData();
           formData.append("file", audioBlob, "live_session.wav");
 
-          // THIS IS THE CONNECTION TO THE BACKEND
           try {
             const response = await fetch("http://127.0.0.1:8000/analyze-audio",{
               method: "POST",
@@ -64,20 +61,19 @@ const Dashboard = () => {
         setIsRecording(true);
         setStatus("Recording Voice...");
         setStutterResult(null); 
-        setEmotionResult(null); // <-- 3. Clear old data on new recording
+        setEmotionResult(null); 
         
       } catch (err) {
         alert("Please allow microphone access.");
       }
     }
   };
-
-  // Helper function to color-code emotions
+ 
   const getEmotionColor = (emotion) => {
     if (!emotion) return "#7f8c8d";
     if (emotion === "Happy" || emotion === "Neutral") return "#2ecc71"; // Green
     if (emotion === "Angry" || emotion === "Sad") return "#e67e22"; // Orange
-    return "#3498db"; // Blue default
+    return "#3498db"; 
   };
 
   return (
@@ -123,7 +119,6 @@ const Dashboard = () => {
             <p className="small-text">Real-time emotional state detection</p>
             <p className={isRecording ? "active-text" : "inactive"}>{status}</p>
             
-            {/* 4. Display Emotion Data Dynamically */}
             <div className="placeholder" style={{ fontSize: "1.2rem", fontWeight: "bold", color: getEmotionColor(emotionResult) }}>
               {emotionResult ? `Detected Emotion: ${emotionResult}` : "Keep speaking to see real-time analysis"}
             </div>

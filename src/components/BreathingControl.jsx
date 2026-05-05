@@ -5,8 +5,6 @@ import "./BreathingControl.css";
 export default function BreathingControl() {
   const navigate = useNavigate();
   const [activePattern, setActivePattern] = useState(null);
-
-  // --- NEW AI STATE LOGIC ---
   const [isRecording, setIsRecording] = useState(false);
   const [status, setStatus] = useState("");
   const [feedback, setFeedback] = useState(null);
@@ -40,12 +38,11 @@ export default function BreathingControl() {
     },
   ];
 
-  // --- RECORDING LOGIC ---
   const toggleRecording = async () => {
     if (isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      setStatus("Analyzing breath and speech flow...");
+      setStatus("Analyzing...");
     } else {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -69,37 +66,20 @@ export default function BreathingControl() {
             const data = await response.json();
 
             if (data.status === "success") {
-              // ✅ ADDED LINE
               localStorage.setItem("ex_breathing", "done");
-
-              if (data.prediction === "Fluent") {
-                setFeedback({
-                  message: `Good breath control! Emotion: ${data.emotion}`,
-                  color: "green",
-                });
-              } else {
-                setFeedback({
-                  message: `Tension detected. Remember to speak on the exhale. Emotion: ${data.emotion}`,
-                  color: "red",
-                });
-              }
-              setStatus("Complete");
+              setFeedback(null); // no feedback message
+              setStatus("Exercise Completed");
             } else {
-              setFeedback({ message: "Error analyzing audio.", color: "red" });
               setStatus("Failed");
             }
           } catch (error) {
-            setFeedback({
-              message: "Backend Offline. Please check terminal.",
-              color: "red",
-            });
-            setStatus("Connection Error");
+            setStatus("Backend not connected");
           }
         };
 
         mediaRecorderRef.current.start(250);
         setIsRecording(true);
-        setStatus("Recording... Follow the pattern and speak on the exhale.");
+        setStatus("Recording... Follow breathing pattern");
         setFeedback(null);
       } catch (err) {
         alert("Please allow microphone access.");
@@ -136,20 +116,15 @@ export default function BreathingControl() {
               onClick={toggleRecording}
               style={{ backgroundColor: isRecording ? "#ff4d4d" : "" }}
             >
-              {isRecording ? "⬛ Stop & Analyze" : "▶ Start Exercise"}
+              {isRecording ? "Stop & Analyze" : "Start Exercise"}
             </button>
-            <button className="reset-btn">⟲ Reset</button>
+            <button className="reset-btn">Reset</button>
           </div>
 
           <div style={{ marginTop: "15px", textAlign: "center", minHeight: "40px" }}>
             <p style={{ fontStyle: "italic", color: "#666", margin: "5px 0" }}>
               {status}
             </p>
-            {feedback && (
-              <p style={{ color: feedback.color, fontWeight: "bold", margin: "5px 0" }}>
-                {feedback.message}
-              </p>
-            )}
           </div>
 
           <div className="phase-times">

@@ -63,7 +63,6 @@ function SoftOnset() {
             const data = await response.json();
 
             if (data.status === "success") {
-              // ✅ ADDED LINE
               localStorage.setItem("ex_softonset", "done");
 
               if (data.prediction === "Fluent") {
